@@ -27,7 +27,7 @@ Resources:
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
-          TABLE_NAME: !Ref Todo_Table
+          TABLE_NAME: !Ref TodoTable
       Events:
         PostResource:
           Type: Api
@@ -44,7 +44,7 @@ Resources:
       Policies: AmazonDynamoDBReadOnlyAccess
       Environment:
         Variables:
-          TABLE_NAME: !Ref Todo_Table
+          TABLE_NAME: !Ref TodoTable
       Events:
         GetResource:
           Type: Api
@@ -52,7 +52,7 @@ Resources:
             Path: /todo/all
             Method: get
 
-  Todo_Table:
+  TodoTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
       PrimaryKey:

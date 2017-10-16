@@ -3,7 +3,7 @@
 DIGITS_RE='^[0-9]+$'
 TEMPLATE_FILE_NAME='serverless.cfn.yml'
 PACKAGE_FILE_NAME='serverless-xfm.cfn.yml'
-STACK_NAME='StartServerlessTodo'
+STACK_NAME='ServerlessTodo'
 JSON_CONTENT='{"todo_id": "1001", "active": true, "description": "What TODO next?"}'
 
 # Check if the aws cli is installed
@@ -13,7 +13,7 @@ if ! command -v aws > /dev/null; then
 fi
 
 ACCOUNT_ID=`aws iam get-user | grep 'arn:aws:iam' | tr -dc '0-9'`
-BUCKET_NAME="${ACCOUNT_ID}-startup-serve-todo-app"
+BUCKET_NAME="${ACCOUNT_ID}-serveless-todo-app"
 REGION=${REGION_VAL}
 
 # Check if the account id is valid
@@ -55,5 +55,5 @@ echo "The rest API url is ${REST_API_URL}"
 echo "You can try adding a new to do item by running the following command:"
 echo "curl -X POST -H 'Content-Type: application/json' -d '${JSON_CONTENT}' ${REST_API_URL}/todo/new"
 echo ""
-echo "To fetch the active TODO items you created, execute the following command:"
-echo "curl ${REST_API_URL}/todo/active"
+echo "To fetch the all TODO items, execute the following command:"
+echo "curl ${REST_API_URL}/todo/all"
