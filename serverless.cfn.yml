@@ -17,17 +17,17 @@ Transform: AWS::Serverless-2016-10-31
 Description: Startup Kit RESTful API backed by a SimpleTable (DynamoDB).
 
 Resources:
-  
+
   CreateFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.create
-      FunctionName: StartupKitCreateFunction
+      FunctionName: TodoCreateFunction
       Runtime: nodejs6.10
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
-          TABLE_NAME: !Ref Table
+          TABLE_NAME: !Ref Todo_Table
       Events:
         PostResource:
           Type: Api
@@ -39,12 +39,12 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.getAll
-      FunctionName: StartupKitGetAllFunction
+      FunctionName: TodoGetAllFunction
       Runtime: nodejs6.10
       Policies: AmazonDynamoDBReadOnlyAccess
       Environment:
         Variables:
-          TABLE_NAME: !Ref Table
+          TABLE_NAME: !Ref Todo_Table
       Events:
         GetResource:
           Type: Api
@@ -52,96 +52,7 @@ Resources:
             Path: /todo/all
             Method: get
 
-  # API functions related to active TODO items
-  
-  GetActiveFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.getActive
-      FunctionName: StartupKitGetActiveFunction
-      Runtime: nodejs6.10
-      Policies: AmazonDynamoDBReadOnlyAccess
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref Table
-      Events:
-        GetResource:
-          Type: Api
-          Properties:
-            Path: /todo/active
-            Method: get
-
-  UpdateActiveFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.updateActive
-      FunctionName: StartupKitUpdateActiveFunction
-      Runtime: nodejs6.10
-      Policies: AmazonDynamoDBFullAccess
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref Table
-      Events:
-        PutResource:
-          Type: Api
-          Properties:
-            Path: /todo/active
-            Method: put
-
-  # API functions related to completed TODO items
-  
-  GetCompleteFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.getComplete
-      FunctionName: StartupKitGetCompleteFunction
-      Runtime: nodejs6.10
-      Policies: AmazonDynamoDBReadOnlyAccess
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref Table
-      Events:
-        GetResource:
-          Type: Api
-          Properties:
-            Path: /todo/complete
-            Method: get
-
-  MarkCompleteFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.markComplete
-      FunctionName: StartupKitMarkCompleteFunction
-      Runtime: nodejs6.10
-      Policies: AmazonDynamoDBFullAccess
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref Table
-      Events:
-        PutResource:
-          Type: Api
-          Properties:
-            Path: /todo/complete
-            Method: put
-
-  DeleteCompleteFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.deleteComplete
-      FunctionName: StartupKitDeleteCompleteFunction
-      Runtime: nodejs6.10
-      Policies: AmazonDynamoDBFullAccess
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref Table
-      Events:
-        DeleteResource:
-          Type: Api
-          Properties:
-            Path: /todo/complete
-            Method: delete
-
-  Table:
+  Todo_Table:
     Type: AWS::Serverless::SimpleTable
     Properties:
       PrimaryKey:
